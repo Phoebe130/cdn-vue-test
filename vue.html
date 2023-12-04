@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">{{message}}</div>
+
+    <!-- 注意！課程上是「選項式」而非組合式vue -->
+    <!-- 複製貼上cdn -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+
+            // ES6之前
+            // data:function(){
+            //     return{
+            //         message:'Hello Vue!'
+            //     }
+            // },
+
+
+
+            // 宣告（資料的分區）
+            data() {
+                // 資料這區一定要return
+                return {
+                    message: 'Hello Vue!',
+                    array:[],
+                    object:{}
+                }
+            },
+
+            // 自製函式or引用函式庫的區塊
+            methods: {
+                // 寫function的地方
+            },
+        }).mount('#app')
+    </script>
+</body>
+
+</html>
