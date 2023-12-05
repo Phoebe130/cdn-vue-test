@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            width: 300px;
+            height: 250px;
+        }
+
+        .power-red,.life-red {
+            color: red;
+        }
+     
+        .text-bold {
+            font-weight: 900;
+        }
+
+        .life-text-center{
+            text-align: center;
+        }
+    </style>
+</head>
+<!-- 筆記
+    1.data裡面是放屬性
+    2.methods裡面是放函式
+    3.而函式要用到屬性，就要加this 
+-->
+
+
+<body>
+
+    <div id="app">
+        <!--原本是字串 寫上v-bind:(屬性綁定)完整寫法 就可以綁定變數-->
+        <img v-bind:src="imgPath" alt="" @click="changImage()">
+
+        <!--v-bind簡寫 「：」-->
+        <!-- <img :src="imgPath" alt="" @click="changImage()"> -->
+        <!-- <h1 v-bind:class="'red'">屬性綁定</h1> -->
+
+        <!-- :class="{'class名稱':判斷式}" -->
+        <h1 :class="{ 'power-red':power >= 9000 }" class="text-bold">戰力：{{power}}</h1>
+        <button type="button" @click="power++">增加戰力</button>
+
+        <!-- 第二種寫法 :class="fn"依靠fn回傳要使用的class名稱 就可以想放幾個就放幾個-->
+        <h1 :class="cssStyle()">生命值：{{heart}}</h1>
+        <button type="button" @click="heart--">生命值-1</button>
+
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    state: 1,
+                    imgPath: './img/img1.jpg',
+                    power: 8999,
+                    heart:5,
+                };
+            },
+            methods: {
+                changImage() {
+                    // console.log(123);
+                    if (this.state === 1) {
+                        this.imgPath = './img/img2.jpg';
+                        this.state = 2;
+                    } else if (this.state === 2) {
+                        this.imgPath = './img/img3.jpg';
+                        this.state = 3;
+                    } else {
+                        this.imgPath = './img/img1.jpg';
+                        this.state = 1;
+                    }
+                },
+                cssStyle() {
+                    if (this.heart <= 4) {
+                        return 'life-red life-text-center'; //想放幾個class就放幾個
+                    }
+                    return " ";
+                },
+            },
+        }).mount('#app');
+
+    </script>
+</body>
+
+</html>

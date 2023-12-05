@@ -6,10 +6,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        img {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="app">{{message}}</div>
+    <div id="app">{{message}}
+        <div>數字:{{ count }} </div>
+        <!-- 花括號內也可以寫JS: -->
+        <div>數字:{{ count+1 }} </div>
+        <!-- ＠(簡寫) + 監聽事件名（click)=>點擊事件 -->
+        <button type="button" @click="count++">簡寫 點擊事件 增加</button> <br />
+        <!-- v-on(完整寫法) + 監聽事件名-->
+        <button type="button" v-on:mouseover="count++">完整寫法 滑鼠滑過事件 增加</button> <br />
+        <button type="button" @click="addCount()">以另外寫函式做範例</button>
+
+        <br><br><br><br>
+        <hr>
+        <!-- v-model (通常寫在input) -->
+        <!-- <input v-model="(放要綁定的變數）" type="(都可以，除了file)"> -->
+        <input v-model="inputText" type="">
+        <div></div>
+        <!-- {{inputText}} 後面花括號內放變數，就可以雙向綁定 -->
+        <!-- input值為多少 資料就跟著變動  -->
+        {{inputText}}
+        <br><br><br><br>
+        <hr>
+        <!-- v-if(判斷式)假設為真 該元素會出現在文件內，反之不出現在文件內 -->
+        <div>
+            <div>戰力{{power}}</div>
+            <button type="button" @click="power++">增加戰力</button>
+            <button type="button" @click="power--">減少戰力</button><br>
+            <img v-if=" power < 5 " src="./img/img1.jpeg" alt="">
+            <img v-else-if="power < 10" src="./img/img3.jpeg" alt="">
+            <img v-else src="./img/img2.jpg" alt="">
+
+            <!-- v-show判斷式=>假設為真，該元素會移除display:none,反之增加display:none -->
+            <div v-show="power >5">v-show</div>
+        </div>
+    </div>
 
     <!-- 注意！課程上是「選項式」而非組合式vue -->
     <!-- 複製貼上cdn -->
@@ -18,7 +57,6 @@
         const { createApp } = Vue
 
         createApp({
-
             // ES6之前
             // data:function(){
             //     return{
@@ -26,21 +64,28 @@
             //     }
             // },
 
-
-
             // 宣告（資料的分區）
             data() {
                 // 資料這區一定要return
+                // 這裡是物件，物件的樣子就是「{},」 所以要記得給逗號
                 return {
                     message: 'Hello Vue!',
-                    array:[],
-                    object:{}
+                    array: [],
+                    object: {},
+                    count: 0,
+                    inputText: '雙向綁定',
+                    power: 0,
                 }
             },
 
             // 自製函式or引用函式庫的區塊
             methods: {
                 // 寫function的地方
+                addCount() {
+                    console.log(123);
+                    // 到其他分區取資料的時候，要用this
+                    this.count++;
+                },
             },
         }).mount('#app')
     </script>

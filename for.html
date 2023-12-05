@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            /* background-color: red; */
+        }
+
+        .card {
+            width: 350px;
+        }
+
+        /* .card-image { 
+            width: 100%;
+        }*/
+        .card-body {
+            padding: 20px;
+        }
+
+        img {
+            width: 100%;
+            height: 200px;
+        }
+
+        .card {
+            border: 1px solid black;
+
+        }
+    </style>
+</head>
+
+<!-- 筆記：
+1.v-if v-show v-model 
+2.form表單的prevent預防跳頁
+ -->
+<body>
+    <div id="app">
+        <form @submit.prevent=submitData()>
+            <!-- 使用 v-model 指令將輸入框的值雙向綁定 -->
+            name <input v-model="name" type="text">
+            population <input v-model="population" type="number">
+            <button type="submit">新增資料</button>
+        </form>
+        <br><br><br>
+        <div class="container">
+            <!-- v-for="item in array" :key -->
+            <!-- :key="獨一無二的值" 如果真的沒有，可以選擇索引值。
+             主要提高性能用。設定key，Vue可以只更新需要更改的元素，而不必重新渲染整個列表。-->
+            <div v-for="(country, index) in countries" :key="country.id" class="card">
+                <div class="card-image">
+                    <img :src="countryImage(country.population)" alt="">
+                    <!-- <img :src="country.path" alt=""> -->
+                </div>
+                <div class="card-body">
+                    <!-- {{index}} -->
+                    {{country.id}}
+                    <p class="name">country: {{country.name}}</p>
+                    <p class="population">population: {{country.population}}萬</p>
+                    <div class="btns">
+                        <button type="button" @click="country.population+=10">增加人數</button>
+                        <button type="button" @click="country.population-=10">減少人數</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+
+    <script>
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    countries: [{
+                        id: 1,
+                        name: 'JAPAN',
+                        population: 180,
+                    }, {
+                        id: 2,
+                        name: 'HongKong',
+                        population: 31,
+                    }, {
+                        id: 3,
+                        name: 'KOREA',
+                        population: 40,
+                    }
+                    ],
+                    // 使用 v-model 指令將輸入框的值雙向綁定
+                    name: '',
+                    population: 0,
+                }
+            },
+            methods: {
+                countryImage(population) {
+                    if (population <= 31) {
+                        return './img/img2.jpg'
+                    } else if (population <= 40) {
+                        return './img/img3.jpg'
+                    } else {
+                        return './img/img1.jpg'
+
+                    }
+                },
+                submitData() {
+                    this.countries.push({
+                        id: this.countries.length + 1,
+                        name: this.name,
+                        population: this.population,
+                    })
+                }
+            },
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
